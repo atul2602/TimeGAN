@@ -32,7 +32,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # 1. TimeGAN model
-from timegan import timegan
+from timegan2 import timegan
 # 2. Data loading
 from data_loading import real_data_loading, sine_data_generation
 # 3. Metrics

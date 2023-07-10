@@ -1,0 +1,26 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 1 files
+Detected 3 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: utils.py
+--------------------------------------------------------------------------------
+utils.py:101:15: WARNING: tf.contrib.rnn.LayerNormBasicLSTMCell requires manual check. (Manual edit required) `tf.contrib.rnn.LayerNormBasicLSTMCell` has been migrated to `tfa.rnn.LayerNormLSTMCell` in TensorFlow Addons. The API spec may have changed during the migration. Please see https://github.com/tensorflow/addons for more info.
+utils.py:101:15: WARNING: Using member tf.contrib.rnn.LayerNormBasicLSTMCell in deprecated module tf.contrib.rnn. (Manual edit required) tf.contrib.rnn.* has been deprecated, and widely used cells/functions will be moved to tensorflow/addons repository. Please check it there and file Github issues if necessary.
+utils.py:101:15: ERROR: Using member tf.contrib.rnn.LayerNormBasicLSTMCell in deprecated module tf.contrib. tf.contrib.rnn.LayerNormBasicLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+================================================================================
+Detailed log follows:
+
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'utils.py'
+ outputting to 'utils2.py'
+--------------------------------------------------------------------------------
+
+98:15: INFO: Renamed 'tf.contrib.rnn.BasicLSTMCell' to 'tf.compat.v1.nn.rnn_cell.BasicLSTMCell'
+101:15: WARNING: tf.contrib.rnn.LayerNormBasicLSTMCell requires manual check. (Manual edit required) `tf.contrib.rnn.LayerNormBasicLSTMCell` has been migrated to `tfa.rnn.LayerNormLSTMCell` in TensorFlow Addons. The API spec may have changed during the migration. Please see https://github.com/tensorflow/addons for more info.
+101:15: WARNING: Using member tf.contrib.rnn.LayerNormBasicLSTMCell in deprecated module tf.contrib.rnn. (Manual edit required) tf.contrib.rnn.* has been deprecated, and widely used cells/functions will be moved to tensorflow/addons repository. Please check it there and file Github issues if necessary.
+101:15: ERROR: Using member tf.contrib.rnn.LayerNormBasicLSTMCell in deprecated module tf.contrib. tf.contrib.rnn.LayerNormBasicLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+
