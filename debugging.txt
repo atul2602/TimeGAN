@@ -1,0 +1,2 @@
+Shape of X_mb before going into embedder = (128, 10, 6)
+Shape of T_mb before going into embedder = (128,)

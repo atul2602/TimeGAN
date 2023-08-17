@@ -3,8 +3,9 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 from sklearn.metrics import accuracy_score
-from utils import train_test_divide, extract_time, batch_generator
+from utils2 import train_test_divide, extract_time, batch_generator
 
+# ... (other utility functions and imports)
 
 def discriminative_score_metrics(ori_data, generated_data):
     """Use post-hoc RNN to classify original data and synthetic data
@@ -30,7 +31,7 @@ def discriminative_score_metrics(ori_data, generated_data):
     ## Build a post-hoc RNN discriminator network
     # Network parameters
     hidden_dim = int(dim / 2)
-    iterations = 2000
+    iterations = 20
     batch_size = 128
 
     # Discriminator model
@@ -41,6 +42,7 @@ def discriminative_score_metrics(ori_data, generated_data):
             self.fc = nn.Linear(hidden_dim, 1)
 
         def forward(self, x, t):
+            # x = x.permute(1, 0, 2)  # Reshape for RNN input
             _, h_n = self.rnn(x)
             y_hat_logit = self.fc(h_n.squeeze())
             y_hat = torch.sigmoid(y_hat_logit)
@@ -54,12 +56,21 @@ def discriminative_score_metrics(ori_data, generated_data):
     # Train/test division for both original and generated data
     train_x, train_x_hat, test_x, test_x_hat, train_t, train_t_hat, test_t, test_t_hat = \
         train_test_divide(ori_data, generated_data, ori_time, generated_time)
+    
+    # print("Train_x ka element: ", train_x[0])
+
 
     # Training loop
     for itt in range(iterations):
         # Batch setting
         X_mb, T_mb = batch_generator(train_x, train_t, batch_size)
         X_hat_mb, T_hat_mb = batch_generator(train_x_hat, train_t_hat, batch_size)
+
+        # Convert to PyTorch tensors
+        X_mb = torch.stack([torch.tensor(x, dtype=torch.float32) for x in X_mb])
+        T_mb = torch.stack([torch.tensor(t, dtype=torch.int64) for t in T_mb])
+        X_hat_mb = torch.stack([torch.tensor(x, dtype=torch.float32) for x in X_hat_mb])
+        T_hat_mb = torch.stack([torch.tensor(t, dtype=torch.int64) for t in T_hat_mb])
 
         # Train discriminator
         optimizer.zero_grad()
@@ -73,6 +84,12 @@ def discriminative_score_metrics(ori_data, generated_data):
 
     ## Test the performance on the testing set
     with torch.no_grad():
+        test_x = torch.stack([torch.tensor(x, dtype=torch.float32) for x in test_x])
+        test_t = torch.stack([torch.tensor(t, dtype=torch.int64) for t in test_t])
+        test_x_hat = torch.stack([torch.tensor(x, dtype=torch.float32) for x in test_x_hat])
+        test_t_hat = torch.stack([torch.tensor(t, dtype=torch.int64) for t in test_t_hat])
+
+        print("test_x ki shape: ", test_x.size())
         y_logit_real, _ = discriminator(test_x, test_t)
         y_logit_fake, _ = discriminator(test_x_hat, test_t_hat)
         y_pred_real = (torch.sigmoid(y_logit_real) > 0.5).cpu().numpy().flatten()
@@ -86,3 +103,5 @@ def discriminative_score_metrics(ori_data, generated_data):
     discriminative_score = np.abs(0.5 - acc)
 
     return discriminative_score
+
+# ... (rest of the code)

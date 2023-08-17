@@ -32,13 +32,13 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # 1. TimeGAN model
-from timegan2copy import timegan
+from timeganPytorch import timegan
 # 2. Data loading
 from data_loading import real_data_loading, sine_data_generation
 # 3. Metrics
-from metrics.discriminative_metrics2 import discriminative_score_metrics
-from metrics.predictive_metrics2 import predictive_score_metrics
-from metrics.visualization_metrics2 import visualization
+from metrics.discriminative_metrics2copy import discriminative_score_metrics
+from metrics.predictive_metrics2copy import predictive_score_metrics
+from metrics.visualization_metrics2copy import visualization
 
 
 def main (args):
@@ -94,13 +94,14 @@ def main (args):
       
   metric_results['discriminative'] = np.mean(discriminative_score)
       
-  # 2. Predictive score
-  predictive_score = list()
-  for tt in range(args.metric_iteration):
-    temp_pred = predictive_score_metrics(ori_data, generated_data)
-    predictive_score.append(temp_pred)   
+  # To be repaired
+  # # 2. Predictive score
+  # predictive_score = list()
+  # for tt in range(args.metric_iteration):
+  #   temp_pred = predictive_score_metrics(ori_data, generated_data)
+  #   predictive_score.append(temp_pred)   
       
-  metric_results['predictive'] = np.mean(predictive_score)     
+  # metric_results['predictive'] = np.mean(predictive_score)     
           
   # 3. Visualization (PCA and tSNE)
   visualization(ori_data, generated_data, 'pca')
