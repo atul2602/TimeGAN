@@ -1,5 +1,5 @@
 # Codebase for "Time-series Generative Adversarial Networks (TimeGAN)"
-
+> This is a PyTorch implementation of the same codebase by Atul.
 Authors: Jinsung Yoon, Daniel Jarrett, Mihaela van der Schaar
 
 Reference: Jinsung Yoon, Daniel Jarrett, Mihaela van der Schaar, 
